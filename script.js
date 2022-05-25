@@ -3,15 +3,15 @@ let secondNumber = ""
 let operator = ""
 
 function add(number, number2) {
-    return number + number2;
+    return Math.round(((number + number2)+ Number.EPSILON) * 1000000) / 1000000;
 }
 
 function subtract(number, number2) {
-    return number - number2
+    return Math.round(((number - number2)+ Number.EPSILON) * 1000000) / 1000000
 }
 
 function multiply(number, number2) {
-    return number * number2
+    return Math.round(((number * number2)+ Number.EPSILON) * 1000000) / 1000000
 }
 
 function divide(number, number2) {
@@ -19,7 +19,7 @@ function divide(number, number2) {
         alert("you can't divide by 0 lul")
         return resetCalculator()
     }
-    return number / number2
+    return Math.round(((number / number2)+ Number.EPSILON) * 1000000) / 1000000
 }
 
 function operate(number, number2, operator) {
