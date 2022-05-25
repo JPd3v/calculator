@@ -1,6 +1,5 @@
 let firstNumber = null
 let secondNumber = ""
-
 let operator = ""
 
 function add(number, number2) {
@@ -36,7 +35,7 @@ function operate(number, number2, operator) {
 }
 
 let display = document.querySelector(".display")
-
+let minidisplay = document.querySelector(".minidisplay")
 
 let btnNumbers = document.querySelectorAll(".btn-number")
 btnNumbers.forEach(button => {
@@ -53,16 +52,14 @@ btnNumbers.forEach(button => {
 let btnOperators = document.querySelectorAll(".operator")
 btnOperators.forEach(button => {
     button.addEventListener("click", e => {
-
         if (display.textContent.length === 0 && operator !== "") {
             repeatOperator(e)
             return operator = e.target.textContent
-        }
-        else if (display.textContent.length === 0) {
+        } else if (display.textContent.length === 0) {
             return
         } else if (firstNumber !== undefined && operator !== "") {
             minidisplay.textContent += operator
-            resultado()
+            operationResult()
             updateMinidisplay()
         }
         firstNumber = Number(display.textContent)
@@ -77,20 +74,17 @@ let btnClean = document.querySelector(".clean")
 btnClean.addEventListener("click", resetCalculator)
 
 let btnBackspace = document.querySelector(".backspace")
-btnBackspace.addEventListener("click", () => {
-    let editedTExt = display.textContent.slice(0, -1)
-    return display.textContent = editedTExt
-})
+btnBackspace.addEventListener("click", backspace)
 
 let btnEqual = document.querySelector(".equal")
 btnEqual.addEventListener("click", () => {
     secondNumber = display.textContent
     if (operator === "") { return }
     else if (secondNumber === "" && operator !== "") { return }
-    resultado()
+    operationResult()
 })
 
-function resultado() {
+function operationResult() {
     secondNumber = Number(display.textContent)
     display.textContent = operate(firstNumber, secondNumber, operator)
     firstNumber = operate(firstNumber, secondNumber, operator)
@@ -109,13 +103,9 @@ function cleanDisplay() {
     display.textContent = ""
 }
 
-
-let minidisplay = document.querySelector(".minidisplay")
-
 function updateMinidisplay() {
     document.querySelector(".minidisplay").textContent = firstNumber
 }
-
 
 function resetCalculator() {
     firstNumber = null
@@ -132,6 +122,6 @@ function repeatOperator(e) {
 }
 
 function backspace() {
-    let editedTExt = display.textContent.slice(0, -1)
-    return display.textContent = editedTExt
+    let editedText = display.textContent.slice(0, -1)
+    return display.textContent = editedText
 }
