@@ -28,7 +28,14 @@
 
 .display {
     width: 200px;
-    height: 30px;
+    height: 40px;
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.minidisplay{
+    width: 200px;
+    height:30px;
 }
 
 .operator:focus{

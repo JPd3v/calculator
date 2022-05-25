@@ -1,7 +1,7 @@
-let firstNumber =null
-let secondNumber
+let firstNumber = null
+let secondNumber = ""
 
-let operator=""
+let operator = ""
 
 function add(number, number2) {
     return number + number2;
@@ -16,6 +16,10 @@ function multiply(number, number2) {
 }
 
 function divide(number, number2) {
+    if (number2 === 0) {
+        alert("you can't divide by 0 lul")
+        return resetCalculator()
+    }
     return number / number2
 }
 
@@ -33,10 +37,15 @@ function operate(number, number2, operator) {
 
 let display = document.querySelector(".display")
 
+
 let btnNumbers = document.querySelectorAll(".btn-number")
 btnNumbers.forEach(button => {
     button.addEventListener("click", e => {
-       
+        if (e.target.textContent === "." && display.textContent.includes(".")) {
+            return
+        } else if (display.textContent === "" && e.target.textContent === ".") {
+            return populateDisplay(0 + e.target.textContent)
+        }
         populateDisplay(e.target.textContent)
     })
 })
@@ -44,140 +53,85 @@ btnNumbers.forEach(button => {
 let btnOperators = document.querySelectorAll(".operator")
 btnOperators.forEach(button => {
     button.addEventListener("click", e => {
-        if (firstNumber !== undefined && operator !== "") {
-            document.querySelector(".minidisplay").textContent += operator
+
+        if (display.textContent.length === 0 && operator !== "") {
+            repeatOperator(e)
+            return operator = e.target.textContent
+        }
+        else if (display.textContent.length === 0) {
+            return
+        } else if (firstNumber !== undefined && operator !== "") {
+            minidisplay.textContent += operator
             resultado()
             updateMinidisplay()
-            
         }
-        
-        
-        
-        firstNumber= Number(display.textContent)
-        
+        firstNumber = Number(display.textContent)
         updateMinidisplay()
         operator = e.target.textContent
         document.querySelector(".minidisplay").textContent += operator
         cleanDisplay()
-
-
-  
     })
 })
 
+let btnClean = document.querySelector(".clean")
+btnClean.addEventListener("click", resetCalculator)
+
+let btnBackspace = document.querySelector(".backspace")
+btnBackspace.addEventListener("click", () => {
+    let editedTExt = display.textContent.slice(0, -1)
+    return display.textContent = editedTExt
+})
+
 let btnEqual = document.querySelector(".equal")
-    btnEqual.addEventListener("click",()=>{
-        if(secondNumber ==="" && operator ===""){return}
-        document.querySelector(".minidisplay").textContent +=  `${display.textContent}`
-        resultado()
+btnEqual.addEventListener("click", () => {
+    secondNumber = display.textContent
+    if (operator === "") { return }
+    else if (secondNumber === "" && operator !== "") { return }
+    resultado()
+})
 
-    })
-    
-
-    function resultado(){
-        secondNumber=Number(display.textContent)
-        display.textContent = operate(firstNumber, secondNumber, operator)
-        firstNumber=operate(firstNumber, secondNumber, operator)
-        operator=""
-        secondNumber =""
-    }
+function resultado() {
+    secondNumber = Number(display.textContent)
+    display.textContent = operate(firstNumber, secondNumber, operator)
+    firstNumber = operate(firstNumber, secondNumber, operator)
+    operator = ""
+    secondNumber = ""
+    minidisplay.textContent = ""
+}
 
 function populateDisplay(element) {
-        let display = document.querySelector(".display")
-        return display.textContent += element
-    }
-
-function cleanDisplay(){
     let display = document.querySelector(".display")
-    display.textContent =""
+    return display.textContent += element
+}
+
+function cleanDisplay() {
+    let display = document.querySelector(".display")
+    display.textContent = ""
 }
 
 
+let minidisplay = document.querySelector(".minidisplay")
 
-function updateMinidisplay(){
-    document.querySelector(".minidisplay").textContent=firstNumber
+function updateMinidisplay() {
+    document.querySelector(".minidisplay").textContent = firstNumber
 }
 
 
+function resetCalculator() {
+    firstNumber = null
+    secondNumber = ""
+    operator = ""
+    display.textContent = ""
+    minidisplay.textContent = ""
+}
 
+function repeatOperator(e) {
+    let editedText = minidisplay.textContent.slice(0, -1)
+    editedText += e.target.textContent
+    return minidisplay.textContent = editedText
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// function populateDisplay(element) {
-//     let displayer = document.querySelector(".displayer")
-//     return displayer.textContent += element
-// }
-
-// let displayer = document.querySelector(".displayer")
-// let miniDisplayer = document.querySelector(".mini-displayer")
-
-// let firstNumber = document.querySelector(".displayer").textContent
-// let secondNumber = document.querySelector(".displayer").textContent
-// let result;
-// let operator;
-
-
-
-// let btnOperators = document.querySelectorAll(".operator")
-// btnOperators.forEach(button => {
-//     button.addEventListener("click", (e) => {
-//         if (operator !== undefined) {
-//             operator = e.target.textContent
-            
-//             firstNumber = result
-//             secondNumber = Number(displayer.textContent)
-           
-//             result =operate(firstNumber, secondNumber, operator)
-            
-//             miniDisplayer.textContent=result
-//         }
-//         else {
-//             operator = e.target.textContent
-//             firstNumber = Number(document.querySelector(".displayer").textContent)
-//             miniDisplayer.textContent = displayer.textContent + operator
-//             deleteTextcontent(displayer)
-//         }
-
-//     })
-// })
-
-// let btnEqual = document.querySelector(".equal")
-// btnEqual.addEventListener("click", (e) => {
-//     secondNumber = Number(displayer.textContent)
-    
-//     deleteTextcontent(displayer)
-//     // populateDisplay(operate(firstNumber, secondNumber, operator))
-//     result =operate(firstNumber, secondNumber, operator)
-//     miniDisplayer.textContent=result
-// })
-
-// function deleteTextcontent(e) {
-//     return e.textContent = ""
-// }
-
-
-// function checker (){
-//     if
-// }
+function backspace() {
+    let editedTExt = display.textContent.slice(0, -1)
+    return display.textContent = editedTExt
+}
